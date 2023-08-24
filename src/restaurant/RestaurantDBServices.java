@@ -87,7 +87,7 @@ public class RestaurantDBServices {
 
 		ConnectDB ob = new ConnectDB();
 		Connection con = ob.getConnection();
-		String query = "update restaurants SET name=?, address=?, location=?, city=?, state=?, emailId=? where id=?";
+		String query = "update restaurants SET name=?, address=?, location=?, city=?, state=? where id=?";
 		try {
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setString(1,res.getRestaurantName());
@@ -95,13 +95,16 @@ public class RestaurantDBServices {
 			ps.setString(3,res.getLocation());
 			ps.setString(4,res.getCity());
 			ps.setString(5,res.getState());
-			ps.setString(6,res.getEmailId());
-			ps.setInt(7,res.getRestaurantId()); //where id=
+//			ps.setString(6,res.getEmailId());
+			ps.setInt(6,res.getRestaurantId()); //where id=
 			
 			int no = ps.executeUpdate();
 			
-			System.out.println(no + " record updated! ");
+//			System.out.println(no + " record updated! ");
 			
+			if(no ==1) {
+				System.out.println("Data Updated successfully!");
+			}
 		}catch(SQLException e) {
 			e.printStackTrace();
 			System.out.println("Exception in update restaurant details");
@@ -123,7 +126,7 @@ public class RestaurantDBServices {
 			
 		}catch(SQLException e) {
 			e.printStackTrace();
-			System.out.println("Exception in dele restaurant details");
+			System.out.println("Exception in delete restaurant details");
 		}
 
 	}
