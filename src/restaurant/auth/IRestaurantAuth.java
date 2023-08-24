@@ -1,6 +1,6 @@
 package restaurant.auth;
 
-public interface IRestaurantAuth {
+interface IRestaurantAuth {
 	void registerRestaurant();
 	void loginRestaurant();
 }
