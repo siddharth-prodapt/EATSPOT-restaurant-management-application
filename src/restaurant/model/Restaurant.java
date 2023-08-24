@@ -3,20 +3,36 @@ package restaurant.model;
 public class Restaurant {
 	private int restaurantId;
 	private String restaurantName;
-	private String Address;
+	private String address;
 	private String location;
 	private String city;
 	private String state;
 	private String emailId;
 	private String userId;
 	private String password;
+	
+	public Restaurant(){}
+	
+	public Restaurant(int restaurantid, String restaurantName, String address, String location, String city, String state, String userId,
+			 String emailId) {
+		super();
+		this.restaurantId = restaurantid;
+		this.restaurantName = restaurantName;
+		this.address = address;
+		this.location = location;
+		this.city = city;
+		this.state = state;
+		this.userId = userId;
+//		this.password = password;
+		this.emailId = emailId;
+	}
 
 	public Restaurant(String restaurantName, String address, String location, String city, String state, String userId,
 			String password, String emailId) {
 		super();
 
 		this.restaurantName = restaurantName;
-		this.Address = address;
+		this.address = address;
 		this.location = location;
 		this.city = city;
 		this.state = state;
@@ -42,11 +58,11 @@ public class Restaurant {
 	}
 
 	public String getAddress() {
-		return Address;
+		return address;
 	}
 
 	public void setAddress(String address) {
-		Address = address;
+		this.address = address;
 	}
 
 	public String getLocation() {

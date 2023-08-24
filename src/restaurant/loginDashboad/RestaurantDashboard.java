@@ -3,7 +3,12 @@ package restaurant.loginDashboad;
 import java.util.Scanner;
 
 public class RestaurantDashboard {
-	void showRestaurantDashboard() {
+	private static int restaurantLoginId;
+	
+	public static void setRestaurantLoginId(int resId) {
+		restaurantLoginId = resId;
+	}
+	public static void showRestaurantDashboard() {
 		System.out.println("RESTAURANT DASHBOARD");
 		System.out.println("---------------------");
 		int options = -1;

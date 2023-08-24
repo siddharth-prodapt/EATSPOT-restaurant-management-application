@@ -2,6 +2,7 @@ package restaurant;
 
 import java.util.Scanner;
 import restaurant.auth.RestaurantAuth;
+import restaurant.loginDashboad.RestaurantDashboard;
 
 public class RestaurantManager {
 	public static void restaurantAuthMenu() {
@@ -21,7 +22,9 @@ public class RestaurantManager {
 				resAuth.registerRestaurant();
 				break;
 			case 2:
-				resAuth.loginRestaurant();
+				if(resAuth.loginRestaurant()) {
+					RestaurantDashboard.showRestaurantDashboard();
+				}
 				break;
 				
 				default:

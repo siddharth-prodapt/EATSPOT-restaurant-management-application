@@ -1,6 +1,7 @@
 package restaurant.auth;
 
 import java.io.BufferedReader;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.security.MessageDigest;
@@ -11,17 +12,20 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 import com.mysql.cj.xdevapi.Statement;
-
+import restaurant.RestaurantDBServices;
+import restaurant.loginDashboad.RestaurantDashboard;
 import restaurant.model.Restaurant;
 import databaseCon.ConnectDB;
+import restaurant.loginDashboad.RestaurantDashboard;
 
 public class RestaurantAuth implements IRestaurantAuth {
 	private static String emailRegex = "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$";
+//	static int restaurantId = -1;
 
 	/*
 	 * return encrypted password string
 	 */
-	String encryptPassword(String password, String emailId) {
+	private String encryptPassword(String password, String emailId) {
 		final String KEY = "qwerty@miniproject";
 		String encryptedPas = null;
 
@@ -49,39 +53,7 @@ public class RestaurantAuth implements IRestaurantAuth {
 		return encryptedPas;
 	}
 
-	private void createRestaurantInDB(Restaurant newRestaurant) {
-		ConnectDB ob = new ConnectDB();
-		Connection con = ob.getConnection();
-		try {
-			String query = "insert into restaurants(name, address, location, city, state, emailId, userId, password) values(?, ?, ?, ?, ?, ?, ?, ?)";
-			PreparedStatement pstmt = con.prepareStatement(query);
-
-			pstmt.setString(1, newRestaurant.getRestaurantName());
-			pstmt.setString(2, newRestaurant.getAddress());
-			pstmt.setString(3, newRestaurant.getLocation());
-			pstmt.setString(4, newRestaurant.getCity());
-			pstmt.setString(5, newRestaurant.getState());
-			pstmt.setString(6, newRestaurant.getEmailId());
-			pstmt.setString(7, newRestaurant.getUserId());
-			pstmt.setString(8, newRestaurant.getPassword());
-
-			int no = pstmt.executeUpdate();
-
-			System.out.println(no + " user registered in db");
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				con.close();
-			} catch (SQLException e) {
-
-				e.printStackTrace();
-			}
-
-		}
-
-	}
-
+	
 	private boolean isEmailIdRegistered(String emailId) {
 		/*
 		 * <p> Returns {@link #true} if email already registered else <h2>Else
@@ -108,6 +80,8 @@ public class RestaurantAuth implements IRestaurantAuth {
 		return false;
 	}
 
+	
+	/*-------------------------------------public functions-----------------------------------*/
 	public void registerRestaurant() {
 		String name = null, city = null, state = null, emailId = null, password = null, location = null, address,
 				userId, encryptedPassword;
@@ -128,14 +102,14 @@ public class RestaurantAuth implements IRestaurantAuth {
 			state = br.readLine();
 			System.out.println("EmailId: ");
 			emailId = br.readLine();
-			
-			while(!emailId.matches(emailRegex)){
+
+			while (!emailId.matches(emailRegex)) {
 				System.out.println("Not valid email id");
 				System.out.println("Enter emailId: ");
 				emailId = br.readLine();
 			}
 
-			if(isEmailIdRegistered(emailId)) // chk whether email already registered or not
+			if (isEmailIdRegistered(emailId)) // chk whether email already registered or not
 			{
 				System.out.println("Email Already registered! ");
 				return;
@@ -155,16 +129,15 @@ public class RestaurantAuth implements IRestaurantAuth {
 
 		Restaurant newRestaurant = new Restaurant(name, address, location, city, state, userId, encryptedPassword,
 				emailId);
-		System.out.println("EmailID to regd: "+emailId);
+		System.out.println("EmailID to regd: " + emailId);
 
-		createRestaurantInDB(newRestaurant);
+		RestaurantDBServices.createRestaurantInDB(newRestaurant);
 
 	}
 
-	public void loginRestaurant() {
+	public boolean loginRestaurant() {
 		String userId, password;
-		ConnectDB ob = new ConnectDB();
-		Connection con = ob.getConnection();
+		boolean isLogin = false;
 
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		try {
@@ -173,51 +146,58 @@ public class RestaurantAuth implements IRestaurantAuth {
 			System.out.println("------------");
 			System.out.println("UserID/Email: ");
 			userId = br.readLine();
-			while(!userId.matches(emailRegex)) {
+			while (!userId.matches(emailRegex)) {
 				System.out.println("Incorrect email id. Try Again!");
 				System.out.println("Enter correct userId/emailId");
 				userId = br.readLine();
 			}
 			System.out.println("Password: ");
 			password = br.readLine();
-			
+
 			String encryptedPassword = encryptPassword(password, userId);
-			
-			String query = "select userId, password from restaurants where userId=?";
-			
+
+			String query = "select id, userId, password from restaurants where userId=?";
+
+			ConnectDB ob = new ConnectDB();
+			Connection con = ob.getConnection();
+			PreparedStatement ps = con.prepareStatement(query);
+
 			try {
-				PreparedStatement ps = con.prepareStatement(query);
+
 				ps.setString(1, userId);
-				
+
 				ResultSet rs = ps.executeQuery();
 				rs.next();
-				System.out.println("user id from db: "+ rs.getString(1));
-				if(rs.wasNull()) {
-					System.out.println("user not registerd");
-				}
 				
-				if(rs.getString("password").equals(encryptedPassword) ) {
-					System.out.println("Logged IN");
+//				System.out.println("user id from db: " + rs.getInt("id"));
+				if (rs.wasNull()) {
+					
+					System.out.println("was null user not registerd");
 				}
-				else {
-					System.out.println("Incorrect Passoword");
+
+				if (rs.getString("password").equals(encryptedPassword)) {
+					System.out.println("Logged IN");
+					isLogin = true;
+//					restaurantId = rs.getInt("id");
+					RestaurantDashboard.setRestaurantLoginId(rs.getInt("id"));
+				} else {
+					System.out.println("Incorrect Password");
 					System.out.println("Try to Login again");
 				}
-		
+
 			} catch (SQLException e) {
-				
+
 				e.printStackTrace();
 				System.out.println("User Not Registered in Database");
-			}
-			finally {
-				
+			} finally {
 				con.close();
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Login Exception");
 		}
 
+		return isLogin;
 	}
 }
