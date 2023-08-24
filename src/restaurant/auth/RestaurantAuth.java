@@ -16,7 +16,11 @@ import restaurant.model.Restaurant;
 import databaseCon.ConnectDB;
 
 public class RestaurantAuth implements IRestaurantAuth {
+	private static String emailRegex = "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$";
 
+	/*
+	 * return encrypted password string
+	 */
 	String encryptPassword(String password, String emailId) {
 		final String KEY = "qwerty@miniproject";
 		String encryptedPas = null;
@@ -102,13 +106,12 @@ public class RestaurantAuth implements IRestaurantAuth {
 			e.printStackTrace();
 		}
 		return false;
-
 	}
 
 	public void registerRestaurant() {
 		String name = null, city = null, state = null, emailId = null, password = null, location = null, address,
 				userId, encryptedPassword;
-		String emailRegex = "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$";
+//		String emailRegex = "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$";
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
 		System.out.println("-------------------");
@@ -160,6 +163,8 @@ public class RestaurantAuth implements IRestaurantAuth {
 
 	public void loginRestaurant() {
 		String userId, password;
+		ConnectDB ob = new ConnectDB();
+		Connection con = ob.getConnection();
 
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		try {
@@ -168,12 +173,48 @@ public class RestaurantAuth implements IRestaurantAuth {
 			System.out.println("------------");
 			System.out.println("UserID/Email: ");
 			userId = br.readLine();
+			while(!userId.matches(emailRegex)) {
+				System.out.println("Incorrect email id. Try Again!");
+				System.out.println("Enter correct userId/emailId");
+				userId = br.readLine();
+			}
 			System.out.println("Password: ");
 			password = br.readLine();
-
-//		encryptedPassword == password in db
-//		if true then login
-		} catch (IOException e) {
+			
+			String encryptedPassword = encryptPassword(password, userId);
+			
+			String query = "select userId, password from restaurants where userId=?";
+			
+			try {
+				PreparedStatement ps = con.prepareStatement(query);
+				ps.setString(1, userId);
+				
+				ResultSet rs = ps.executeQuery();
+				rs.next();
+				System.out.println("user id from db: "+ rs.getString(1));
+				if(rs.wasNull()) {
+					System.out.println("user not registerd");
+				}
+				
+				if(rs.getString("password").equals(encryptedPassword) ) {
+					System.out.println("Logged IN");
+				}
+				else {
+					System.out.println("Incorrect Passoword");
+					System.out.println("Try to Login again");
+				}
+		
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+				System.out.println("User Not Registered in Database");
+			}
+			finally {
+				
+				con.close();
+			}
+			
+		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Login Exception");
 		}

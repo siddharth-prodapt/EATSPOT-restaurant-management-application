@@ -21,7 +21,7 @@ public class RestaurantManager {
 				resAuth.registerRestaurant();
 				break;
 			case 2:
-//				resAuth.loginRestaurant();
+				resAuth.loginRestaurant();
 				break;
 				
 				default:
