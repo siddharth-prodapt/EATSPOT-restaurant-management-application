@@ -83,6 +83,7 @@ public class InventoryDBServices {
 			float price;
 			
 			Item item;
+
 			
 			while(rs.next()) {
 				id = rs.getInt("id");

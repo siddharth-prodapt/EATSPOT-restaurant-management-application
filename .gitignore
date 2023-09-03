@@ -2,4 +2,3 @@
 *.classpath
 .env
 .settings/
-/bin

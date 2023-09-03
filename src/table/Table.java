@@ -3,14 +3,17 @@ package table;
 public class Table {
 	private int tableId;
 	private String tableName;
-	private int tableQuantity; //nos of persons allowed to sit
+	private int tableCapacity; 
 	private String tableDesc;
 	private int restaurantId;
+	private boolean isAvailable;
 	
-	Table(String tableName, int tableQuantity, String tableDesc){
+	
+	public Table(String tableName, int tableQuantity, String tableDesc, int restaurantId){
 		this.tableName = tableName;
-		this.tableQuantity = tableQuantity;
+		this.tableCapacity = tableQuantity;
 		this.tableDesc = tableDesc;
+		this.setRestaurantId(restaurantId);
 	}
 	
 	
@@ -26,17 +29,27 @@ public class Table {
 	public void setTableName(String tableName) {
 		this.tableName = tableName;
 	}
-	public int getTableQuantity() {
-		return tableQuantity;
+	public int getTableCapacity() {
+		return tableCapacity;
 	}
-	public void setTableQuantity(int tableQuantity) {
-		this.tableQuantity = tableQuantity;
+	public void setTableCapacity(int tableCapacity) {
+		this.tableCapacity = tableCapacity;
 	}
 	public String getTableDesc() {
 		return tableDesc;
 	}
 	public void setTableDesc(String tableDesc) {
 		this.tableDesc = tableDesc;
+	}
+
+
+	public int getRestaurantId() {
+		return restaurantId;
+	}
+
+
+	public void setRestaurantId(int restaurantId) {
+		this.restaurantId = restaurantId;
 	}
 	
 }

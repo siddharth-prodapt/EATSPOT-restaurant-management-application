@@ -11,7 +11,9 @@ public class Restaurant {
 	private String userId;
 	private String password;
 	
-	public Restaurant(){}
+	public Restaurant(){
+		super();
+	}
 	
 	public Restaurant(int restaurantid, String restaurantName, String address, String location, String city, String state, String userId,
 			 String emailId) {

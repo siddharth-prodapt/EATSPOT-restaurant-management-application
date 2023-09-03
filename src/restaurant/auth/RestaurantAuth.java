@@ -194,8 +194,8 @@ public class RestaurantAuth implements IRestaurantAuth {
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("Login Exception");
+//			e.printStackTrace();
+			System.out.println("Try Again. Incorrect password/Email. ");
 		}
 
 		return isLogin;
