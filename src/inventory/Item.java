@@ -4,10 +4,19 @@ public class Item {
 	private int itemId;
 	private String itemName;
 	private float itemPrice;
+	private int quantity;
 	private int restaurant_id;
+	private float itemAmount;
 	
 	public Item() {
 		
+	}
+	public Item(int itemId, String itemName, float itemPrice, int itemQuantity, float itemAmount){
+		this.itemId = itemId;
+		this.itemName = itemName;
+		this.itemPrice = itemPrice;
+		this.quantity = itemQuantity;
+		this.itemAmount = itemAmount;
 	}
 	public Item(String itemName, float itemPrice, int restaurant_id) {
 		this.itemName = itemName;

@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.util.Scanner;
 
 import inventory.InventoryDriverMethod;
+import invoice.InvoiceDBServices;
 import order.OrderDriverMethod;
 import restaurant.RestaurantDBServices;
 import restaurant.model.Restaurant;
@@ -154,6 +155,16 @@ public class RestaurantDashboard {
 		while(options != 4);
 	}
 
+	public static void invoiceServices() {
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Invoice Menu");
+		
+		System.out.println("Enter Order ID : ");
+		int orderId = sc.nextInt();
+		
+		InvoiceDBServices.generateInvoiceByOrderId(orderId);
+		
+	}
 	public static void showRestaurantDashboard() {
 		System.out.println("\n---------------------");
 		System.out.println("RESTAURANT DASHBOARD");
@@ -184,6 +195,7 @@ public class RestaurantDashboard {
 				inventoryServices();
 				break;
 			case 6:
+				invoiceServices();
 				break;
 			case 7:
 				System.out.println("Logged Out!");
