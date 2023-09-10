@@ -6,6 +6,8 @@ import java.util.Scanner;
 
 import inventory.InventoryDriverMethod;
 import invoice.InvoiceDBServices;
+import invoice.InvoiceDriverMethods;
+import order.OrderDBServices;
 import order.OrderDriverMethod;
 import restaurant.RestaurantDBServices;
 import restaurant.model.Restaurant;
@@ -15,6 +17,7 @@ import table.TableDBServices;
 
 public class RestaurantDashboard {
 	private static int restaurantLoginId;
+	private static Restaurant currentRestaurant;
 
 	public static void setRestaurantLoginId(int resId) {
 		restaurantLoginId = resId;
@@ -24,23 +27,31 @@ public class RestaurantDashboard {
 		return restaurantLoginId;
 	}
 
+	public static Restaurant getCurrentRestaurant() {
+		return currentRestaurant;
+	}
+
+	public static void setCurrentRestaurant(Restaurant curRes) {
+		currentRestaurant = curRes;
+	}
+
 	private static void displayRestaurantDetails() {
 		Restaurant restaurant = RestaurantDBServices.getRestaurantById(restaurantLoginId);
 
-		System.out.println("Restaurant Id   : " + restaurant.getRestaurantId());
-		System.out.println("Name            : " + restaurant.getRestaurantName());
-		System.out.println("Address         : " + restaurant.getAddress());
-		System.out.println("Location        : " + restaurant.getLocation());
-		System.out.println("City            : " + restaurant.getCity());
-		System.out.println("State           : " + restaurant.getState());
-		System.out.println("Email Id        : " + restaurant.getEmailId());
+		System.out.println("\t\t\t\t\tRestaurant Id   : " + restaurant.getRestaurantId());
+		System.out.println("\t\t\t\t\tName            : " + restaurant.getRestaurantName());
+		System.out.println("\t\t\t\t\tAddress         : " + restaurant.getAddress());
+		System.out.println("\t\t\t\t\tLocation        : " + restaurant.getLocation());
+		System.out.println("\t\t\t\t\tCity            : " + restaurant.getCity());
+		System.out.println("\t\t\t\t\tState           : " + restaurant.getState());
+		System.out.println("\t\t\t\t\tEmail Id        : " + restaurant.getEmailId());
 		System.out.println("----------------------------------------------------------------------");
 	}
 
 	private static void updateRestaurantDetails() {
 
 		Scanner sc = new Scanner(System.in);
-		System.out.println("Do you really want to update details(y/n): ");
+		System.out.println("\t\t\t\t\tDo you really want to update details(y/n): ");
 		String choice = sc.next();
 
 		if (choice.toLowerCase().equals("n")) {
@@ -51,13 +62,13 @@ public class RestaurantDashboard {
 
 		String name = "", location = "", city = "", state = "", address = "";
 		try {
-			System.out.println("Enter restaurant name   : ");
+			System.out.println("\t\t\t\t\tEnter restaurant name   : ");
 			name = br.readLine();
-			System.out.println("Street/Building         : ");
+			System.out.println("\t\t\t\t\tStreet/Building         : ");
 			location = br.readLine();
-			System.out.println("City                    :");
+			System.out.println("\t\t\t\t\tCity                    :");
 			city = br.readLine();
-			System.out.println("State                   :");
+			System.out.println("\t\t\t\t\tState                   :");
 			state = br.readLine();
 			address = location + ", " + city + ", " + state;
 		} catch (Exception e) {
@@ -78,11 +89,11 @@ public class RestaurantDashboard {
 		Scanner sc = new Scanner(System.in);
 		int options = -1;
 		do {
-			System.out.println("\n------------------");
-			System.out.println("Inventory Services");
-			System.out.println("-------------------");
+			System.out.println("\n\t\t\t\t\t------------------");
+			System.out.println("\t\t\t\t\tInventory Services");
+			System.out.println("\t\t\t\t\t-------------------");
 			System.out.println(
-					"1. Add Item to Inventory\n2. Update Item in Inventory\n3. View All Inventory items 4. Exit");
+					"\t\t\t\t\t1. Add Item to Inventory\n\t\t\t\t\t2. Update Item in Inventory\n\t\t\t\t\t3. View All Inventory items\n\t\t\t\t\t4. Exit");
 			options = sc.nextInt();
 			switch (options) {
 			case 1:
@@ -93,6 +104,8 @@ public class RestaurantDashboard {
 				break;
 			case 3:
 				InventoryDriverMethod.viewAllItemDetails();
+				break;
+			case 4:
 				break;
 			default:
 				System.out.println("Try Again");
@@ -105,13 +118,13 @@ public class RestaurantDashboard {
 		int options = -1;
 		Scanner sc = new Scanner(System.in);
 		do {
-			System.out.println("------------");
-			System.out.println("TABLE MENU");
-			System.out.println("------------\n");
+			System.out.println("\t\t\t\t\t------------");
+			System.out.println("\t\t\t\t\tTABLE MENU");
+			System.out.println("\t\t\t\t\t------------\n");
 			System.out.println(
-					"1. Create Table \n2. Update Table Details \n3. Table Availability \n4. Search Table By Id \n5. Show all tables\n6. Delete Table \n7. Exit");
+					"\t\t\t\t\t1. Create Table \n\t\t\t\t\t2. Update Table Details \n\t\t\t\t\t3. Table Availability \n\t\t\t\t\t4. Search Table By Id \n\t\t\t\t\t5. Show all tables\n\t\t\t\t\t6. Delete Table \n\t\t\t\t\t7. Exit");
 
-			System.out.println("Select options: ");
+			System.out.println("\t\t\t\t\tSelect options: ");
 			options = sc.nextInt();
 
 			switch (options) {
@@ -127,8 +140,11 @@ public class RestaurantDashboard {
 			case 5:
 				TableController.displayAllTableDetails();
 				break;
+			case 7:
+				System.out.println("Closing...");
+				break;
 			default:
-				System.out.println("Try Again");
+				System.out.println("\t\t\t\tTry Again");
 			}
 
 		} while (options != 7);
@@ -138,42 +154,61 @@ public class RestaurantDashboard {
 		Scanner sc = new Scanner(System.in);
 		int options = -1;
 		do {
-		System.out.println("Order Menu");
-		System.out.println("1. Generate Order Id and Reserve Table\n2. Order Items at Table\n3. View All booked table details\n4. Exit ");
-		options = sc.nextInt();
-		switch(options) {
-		case 1: 
-			OrderDriverMethod.createOrderIdAndReserveTable();
-			break;
-		case 2:
-			OrderDriverMethod.orderItems();
-			break;
-			//order food
-			//enter order Id 
-		}
-		}
-		while(options != 4);
+			System.out.println("\t\t\t\t\t-----------");
+			System.out.println("\t\t\t\t\tOrder Menu");
+			System.out.println("\t\t\t\t\t-----------");
+
+			System.out.println(
+					"\t\t\t\t\t1. Generate Order Id and Reserve Table\n\t\t\t\t\t2. Order Items at Table\n\t\t\t\t\t3. Exit ");
+			options = sc.nextInt();
+			switch (options) {
+			case 1:
+				OrderDriverMethod.createOrderIdAndReserveTable();
+				break;
+			case 2:
+				OrderDriverMethod.orderItems();
+				break;
+			// order food
+			// enter order Id
+			}
+		} while (options != 3);
 	}
 
 	public static void invoiceServices() {
 		Scanner sc = new Scanner(System.in);
-		System.out.println("Invoice Menu");
-		
-		System.out.println("Enter Order ID : ");
-		int orderId = sc.nextInt();
-		
-		InvoiceDBServices.generateInvoiceByOrderId(orderId);
-		
+		System.out.println("\t\t\t\t\t--------------");
+		System.out.println("\t\t\t\t\tInvoice Menu");
+		System.out.println("\t\t\t\t\t--------------");
+		int option = -1;
+		do {
+			System.out.println(
+					"\t\t\t\t\t1. Generate Invoice Using Order\n\t\t\t\t\t2. Exit\n\t\t\t\t\t3. View Unpaid Orders");
+			option = sc.nextInt();
+			switch (option) {
+			case 1:
+				InvoiceDriverMethods.displayBill();
+				break;
+			case 2:
+				break;
+			case 3:
+				OrderDBServices.viewUnpaidOrders();
+				break;
+			default:
+				System.out.println("\t\t\t\t\tTry Again");
+			}
+		} while (option != 2);
+
 	}
+
 	public static void showRestaurantDashboard() {
-		System.out.println("\n---------------------");
-		System.out.println("RESTAURANT DASHBOARD");
-		System.out.println("---------------------");
+		System.out.println("\n\t\t\t\t\t---------------------");
+		System.out.println("\t\t\t\t\tRESTAURANT DASHBOARD");
+		System.out.println("\t\t\t\t\t---------------------");
 		int options = -1;
 		Scanner sc = new Scanner(System.in);
 		do {
 			System.out.println(
-					"1. Restaurant Details\n2. Update Restaurant Details\n3. Orders\n4. Tables\n5. Inventory\n6. Invoice Management\n7. Logout");
+					"\t\t\t\t\t1. Restaurant Details\n\t\t\t\t\t2. Update Restaurant Details\n\t\t\t\t\t3. Orders\n\t\t\t\t\t4. Tables\n\t\t\t\t\t5. Inventory\n\t\t\t\t\t6. Invoice Management\n\t\t\t\t\t7. Logout");
 			options = sc.nextInt();
 
 			switch (options) {
@@ -198,9 +233,10 @@ public class RestaurantDashboard {
 				invoiceServices();
 				break;
 			case 7:
-				System.out.println("Logged Out!");
+				System.out.println("\t\t\t\t\tLogged Out!");
+				break;
 			default:
-				System.out.println("Try Again! with valid option");
+				System.out.println("\t\t\t\t\tTry Again! with valid option");
 
 			}
 		} while (options != 7);

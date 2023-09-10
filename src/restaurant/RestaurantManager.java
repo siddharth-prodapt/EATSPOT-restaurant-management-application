@@ -6,15 +6,15 @@ import restaurant.loginDashboad.RestaurantDashboard;
 
 public class RestaurantManager {
 	public static void restaurantAuthMenu() {
-		System.out.println("\n----------------");
-		System.out.println("RESTAURANT MENU");
-		System.out.println("----------------");
+		System.out.println("\n\t\t\t\t\t----------------");
+		System.out.println("\t\t\t\t\tRESTAURANT MENU");
+		System.out.println("\t\t\t\t\t----------------");
 		
 		Scanner sc = new Scanner(System.in);
 		int option = -1;
 		RestaurantAuth resAuth = new RestaurantAuth();
 		do {
-			System.out.println("1. SignUp\n2. Login");
+			System.out.println("\t\t\t\t\t1. SignUp\n\t\t\t\t\t2. Login");
 			option = sc.nextInt();
 			
 			switch(option) {
@@ -28,7 +28,7 @@ public class RestaurantManager {
 				break;
 				
 				default:
-					System.out.println("Try Again!");
+					System.out.println("\t\t\t\t\tTry Again!");
 			}
 		}while(option!=3);
 		

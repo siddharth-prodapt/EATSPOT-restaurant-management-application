@@ -5,6 +5,13 @@ public class Item {
 	private String itemName;
 	private float itemPrice;
 	private int quantity;
+	
+	public int getQuantity() {
+		return quantity;
+	}
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
 	private int restaurant_id;
 	private float itemAmount;
 	
@@ -16,7 +23,7 @@ public class Item {
 		this.itemName = itemName;
 		this.itemPrice = itemPrice;
 		this.quantity = itemQuantity;
-		this.itemAmount = itemAmount;
+		this.setItemAmount(itemAmount);
 	}
 	public Item(String itemName, float itemPrice, int restaurant_id) {
 		this.itemName = itemName;
@@ -52,5 +59,11 @@ public class Item {
 	}
 	public void setItemPrice(float itemPrice) {
 		this.itemPrice = itemPrice;
+	}
+	public float getItemAmount() {
+		return itemAmount;
+	}
+	public void setItemAmount(float itemAmount) {
+		this.itemAmount = itemAmount;
 	}
 }

@@ -45,13 +45,14 @@ public class InventoryDBServices {
 		ConnectDB ob = new ConnectDB();
 		Connection con = ob.getConnection();
 		
-		String query = "UPDATE items SET name=?, price=? WHERE restaurant_id=? "; 
+		String query = "UPDATE items SET name=?, price=? WHERE restaurant_id=? and id=? "; 
 		
 		try {
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setString(1, updateItemObj.getItemName());
 			ps.setFloat(2, updateItemObj.getItemPrice());
 			ps.setInt(3, RestaurantDashboard.getRestaurantLoginId());
+			ps.setInt(4, itemId);
 			
 			int no = ps.executeUpdate();
 			
@@ -60,7 +61,7 @@ public class InventoryDBServices {
 			}
 		}
 		catch(SQLException e) {
-			System.out.println("Update inventory items exception");
+//			System.out.println("Update inventory items exception");
 			System.out.println("RestaurantID doesnt exist");			
 		}
 	}
@@ -96,7 +97,7 @@ public class InventoryDBServices {
 			}
 		}
 		catch(SQLException e) {
-			System.out.println("Get all restaurant item details exception");
+			System.out.println("Item Details not fetched . Try Again");
 		}
 		return itemsList;
 		

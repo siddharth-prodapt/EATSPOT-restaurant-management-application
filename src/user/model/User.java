@@ -9,6 +9,26 @@ public class User {
 	private String userPassword;
 	
 	
+	public User() {
+		
+	}
+	public User(int id, String name, String phone , String emailId, String userId) {
+		this.userId = id;
+		this.userName = name;
+		this.userEmailId = emailId;
+		this.userPhoneNo = phone;
+		this.userLoginId = userId;
+	}
+	
+	public User(String name, String emailId, String phoneNo, String loginId, String password) {
+		// TODO Auto-generated constructor stub
+		this.userName = name;
+		this.userEmailId = emailId;
+		this.userPhoneNo = phoneNo;
+		this.userLoginId = loginId;
+		this.userPassword = password;
+	}
+
 	public int getUserId() {
 		return userId;
 	}
@@ -51,6 +71,4 @@ public class User {
 	public void setUserPassword(String userPassword) {
 		this.userPassword = userPassword;
 	}
-	
-	
 }

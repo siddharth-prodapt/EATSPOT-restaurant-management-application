@@ -22,13 +22,12 @@ public class OrderDriverMethod {
 	public static void orderItems() {
 		Scanner sc = new Scanner(System.in);
 		
-		
 		int options = -1;
 		int qty = 1;
 		float subTotal = 0;
 		int itemId = -1;
 
-		System.out.println("Enter orderId: ");
+		System.out.println("\t\t\t\t\tEnter orderId : ");
 		int orderId = sc.nextInt();
 		
 		ArrayList<Item> itemsList = InventoryDBServices
@@ -36,8 +35,10 @@ public class OrderDriverMethod {
 		Map<Integer, Item> itemsMap = new TreeMap<Integer, Item>();
 
 		do {
-			System.out.println("\n---------------");
-			System.out.println("Item Available");
+			
+			System.out.println("\n\n\n\n\t\t\t\t\t---------------");
+			System.out.println("\t\t\t\t\tAVAILABLE ITEMS");
+			System.out.println("\t\t\t\t\t----------------");
 
 			itemsList.forEach(item -> {
 				System.out.println(
@@ -45,16 +46,16 @@ public class OrderDriverMethod {
 				itemsMap.put(item.getItemId(), item);
 			});
 
-			System.out.println("Enter Item Id:  ");
+			System.out.println("Enter Item Id   :  ");
 			itemId = sc.nextInt();
-			System.out.println("Enter Item Qty: ");
+			System.out.println("Enter Item Qty  : ");
 			qty = sc.nextInt();
 
 			subTotal = subTotal + itemsMap.get(itemId).getItemPrice() * qty;
 			
 			OrderDBServices.orderItems(orderId, itemId, qty);
 
-			System.out.println("Do you want to again order(1-Yes/0-No): ");
+			System.out.println("Do you want to order again(1-Yes/0-No): ");
 			options = sc.nextInt();
 		} while (options == 1);
 
@@ -62,40 +63,24 @@ public class OrderDriverMethod {
 	public static void createOrderIdAndReserveTable() {
 		int tableNo;
 		Scanner sc = new Scanner(System.in);
-		System.out.println("Enter Table no: ");
+		System.out.println("\t\t\t\t\tEnter Table no : ");
 		tableNo = sc.nextInt();
-//		int index = 0;
 
 		if (OrderDBServices.isTableAvailable(tableNo)) {
 //			getTableDetails
-			if (OrderDBServices.bookTableById(tableNo)) {
+			if (OrderDBServices.toggleTableAvailabilityById(tableNo, false)) {
 //				Open order tab
-				int orderId = OrderDBServices.createOrderId(tableNo);
+				int orderId = OrderDBServices.createOrderId(tableNo, 0); //customerId =  0 for non regd user
 //				
 				setOrderId(orderId);
 				
-				System.out.println("Table Booked for Customer!");
-				System.out.println("Ready to serve meals");
-				System.out.println("Order ID: "+orderId +"\tTableNo: "+tableNo);
+				System.out.println("\t\t\t\t\tTable Booked for Customer!");
+				System.out.println("\t\t\t\t\tReady to serve meals");
+				System.out.println("\t\t\t\t\tOrder ID: "+orderId +"\tTableNo: "+tableNo);
 			}
-
-			
-			/*
-			 * create order - orderId, cusomerId-NA, subTotal=(itemId.price)*qty,
-			 * tableId=tableNo, isDineIn=true" order details - orderid=getOrderId(having
-			 * table No == tableNo) itemI = itemId, price = item.price, qty=?
-			 * 
-			 */
-
-			// setTable availabiltiy to booked
 		}
 		else {
-			System.out.println("Selected table is not available!");
+			System.out.println("Selected table is already booked !");
 		}
-
-//		chk table is it available
-//		if yes book it
-// view available items
-//		enter quantity
 	}
 }

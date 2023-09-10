@@ -3,6 +3,7 @@ package table;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import restaurant.loginDashboad.RestaurantDashboard;
@@ -14,12 +15,12 @@ public class TableController {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
 		try {
-			System.out.println("\n------------");
-			System.out.println("Create Table");
-			System.out.println("--------------");
-			System.out.println("Table Name: ");
+			System.out.println("\n\t\t\t\t\t------------");
+			System.out.println("\t\t\t\t\tADD TABLE");
+			System.out.println("\t\t\t\t\t------------");
+			System.out.println("Table Name      : ");
 			name = br.readLine();
-			System.out.println("Table Capacity: ");
+			System.out.println("Table Capacity  : ");
 			capacity = Integer.parseInt(br.readLine());
 			System.out.println("Table Desc: ");
 			desc = br.readLine();
@@ -38,8 +39,9 @@ public class TableController {
 	public static void displayAllTableDetails() {
 //		to show all registered table details
 // connect->searchRestaurantTable->Regd
-		System.out.println("ALL REGD TABLES");
-		System.out.println("-----------------");
+		System.out.println("\t\t\t\t\t-----------------");
+		System.out.println("\t\t\t\t\tALL REGD TABLES");
+		System.out.println("\t\t\t\t\t-----------------");
 
 		int resId = RestaurantDashboard.getRestaurantLoginId();
 
@@ -49,7 +51,11 @@ public class TableController {
 	public static void displayAvailableTable() {
 		System.out.println("Available Tables/Unoccupied Tables");
 		
-		TableDBServices.getAvailableTable();
+		ArrayList<Table> tableList = TableDBServices.getAvailableTableOfRestaurant(RestaurantDashboard.getRestaurantLoginId());
+	
+		tableList.forEach(table->{
+			System.out.println("display available table");
+		});
 	}
 	void updateTableDetailsMenu() {
 

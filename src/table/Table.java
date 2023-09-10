@@ -8,6 +8,13 @@ public class Table {
 	private int restaurantId;
 	private boolean isAvailable;
 	
+	public Table(int tableId, String tableName, int tableCapacity, String tableDesc) {
+		this.tableId = tableId;
+		this.tableName = tableName;
+		this.tableCapacity = tableCapacity;
+		this.tableDesc = tableDesc;
+	}
+	
 	
 	public Table(String tableName, int tableQuantity, String tableDesc, int restaurantId){
 		this.tableName = tableName;
