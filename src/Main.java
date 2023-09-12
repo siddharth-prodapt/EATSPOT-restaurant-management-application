@@ -18,7 +18,7 @@ public class Main {
 			
 			
 			
-			System.out.println("\t\t\t\t\t1. Restaurant\n\t\t\t\t\t2. User\n\t\t\t\t\t3. Admin");
+			System.out.println("\t\t\t\t\t1. Restaurant\n\t\t\t\t\t2. User");
 			System.out.println("\t\t\t\t\tSelect user type: ");
 			option = sc.nextInt();
 			
@@ -33,7 +33,7 @@ public class Main {
 			default: 
 				System.out.println("\t\t\t\t\tSelect correct option!");
 			}
-		}while(option!=4);
+		}while(option!=3);
 
 	}
 

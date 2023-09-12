@@ -136,35 +136,35 @@ public class UserAuthController {
 	}
 
 	public static void signUp() {
-		System.out.println("CUSTOMER SIGNUP MENU");
-		System.out.println("---------------------");
+		System.out.println("\t\t\t\t\tCUSTOMER SIGNUP MENU");
+		System.out.println("\t\t\t\t\t---------------------");
 
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		String name = null, emailId = null, phoneNo = null, loginId = null, password = null;
 		String encryptedPassword;
 		char ch;
 		try {
-			System.out.println("Enter Name: ");
+			System.out.println("\t\t\t\t\tEnter Name: ");
 			name = br.readLine();
-			System.out.println("Enter Email: ");
+			System.out.println("\t\t\t\t\tEnter Email: ");
 			emailId = br.readLine();
-			System.out.println("Enter Phone: ");
+			System.out.println("\t\t\t\t\tEnter Phone: ");
 			phoneNo = br.readLine();
 			loginId = emailId;
 
 			while (!emailId.matches(emailRegex)) {
-				System.out.println("Not valid email id");
-				System.out.println("Enter emailId: ");
+				System.out.println("\t\t\t\t\tNot valid email id");
+				System.out.println("\t\t\t\t\tEnter emailId: ");
 				emailId = br.readLine();
 			}
 
 			if (isEmailIdRegistered(emailId)) // chk whether email already registered or not
 			{
-				System.out.println("Email Already registered! ");
+				System.out.println("\t\t\t\t\tEmail Already registered! ");
 				return;
 			}
 
-			System.out.println("Enter password: ");
+			System.out.println("\t\t\t\t\tEnter password: ");
 			password = br.readLine();
 
 		} catch (Exception e) {
